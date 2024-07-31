@@ -26,6 +26,9 @@ app.use(cookieParser()); // Use cookie-parser middleware
 // Import and use the router
 const router = require("./routes/shoppingRouter");
 app.use("/shoppingwebsite", router);
+app.get("/", (req, res) => {
+  res.send("Hello");
+});
 
 // Database connection
 const connectWithDb = require("./config/database");
