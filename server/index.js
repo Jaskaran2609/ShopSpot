@@ -12,7 +12,12 @@ const app = express();
 const PORT = process.env.PORT || 4000;
 
 // Middleware setup
-app.use(cors());
+app.use(
+  cors({
+    origin: "https://gentle-salamander-b1fd67.netlify.app",
+    credentials: true,
+  })
+);
 app.use(bodyParser.json());
 // Middleware setup
 app.use(bodyParser.urlencoded({ extended: true }));
