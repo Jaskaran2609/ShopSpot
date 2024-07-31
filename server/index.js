@@ -15,7 +15,6 @@ const PORT = process.env.PORT || 4000;
 app.use(
   cors({
     origin: "https://gentle-salamander-b1fd67.netlify.app",
-    credentials: true,
   })
 );
 app.use(bodyParser.json());
