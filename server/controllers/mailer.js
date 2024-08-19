@@ -4,7 +4,6 @@ const nodemailer = require("nodemailer");
 require("dotenv").config();
 
 // Create a transporter using your mail server settings
-console.log("email i have in .env is ", process.env.MAIL_USER);
 const transporter = nodemailer.createTransport({
   host: process.env.MAIL_HOST,
   port: 587, // Use 587 if you're using a service like Gmail with STARTTLS, otherwise use 465 for SSL/TLS

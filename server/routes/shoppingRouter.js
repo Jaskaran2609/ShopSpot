@@ -4,7 +4,13 @@ require("dotenv").config();
 const User = require("../models/userSchema");
 
 // Import controllers
-const { login, signup, verifyOtp } = require("../controllers/auth");
+const {
+  login,
+  signup,
+  verifyOtp,
+  resetpassword,
+  resetPasswordGenerateOtp,
+} = require("../controllers/auth");
 const { createItem, getAllItems } = require("../controllers/itemController");
 const { purchaseItem } = require("../controllers/purchaseitem");
 const { capturePayment, verifySignature } = require("../controllers/Payment");
@@ -12,6 +18,8 @@ const { auth } = require("../middleware/authmiddleware");
 const { getCustomerItems } = require("../controllers/getCustomerItems");
 
 // Define routes with proper handlers
+router.post("/resetpassword", resetpassword);
+router.post("/resetpasswordgenerateotp", resetPasswordGenerateOtp); // Ensure the route is correct
 router.post("/login", login);
 router.post("/signup", signup);
 router.post("/createitem", createItem);

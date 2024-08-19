@@ -169,3 +169,73 @@ exports.login = async (req, res) => {
     });
   }
 };
+
+// Ensure this function is defined and exported correctly
+exports.resetPasswordGenerateOtp = async (req, res) => {
+  const { email } = req.body;
+  console.log("email i have is ----> ", email);
+  res.cookie("resetPasswordEmail", email);
+
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(400).json({ message: "User not found" });
+    }
+
+    // Generate OTP
+    const otp = crypto.randomBytes(3).toString("hex");
+    user.otp = otp;
+    user.otpExpires = Date.now() + 3600000; // OTP expires in 1 hour
+    await user.save();
+
+    // Send OTP email
+    await sendOtpEmail(email, otp);
+
+    // Save the email in a cookie
+    console.log("email i have is ----> ", email);
+    res.cookie("resetPasswordEmail", email, {
+      httpOnly: true,
+      maxAge: 3600000,
+    }); // Cookie expires in 1 hour
+
+    res.status(200).json({ message: "OTP sent to email" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+// Route to reset password
+exports.resetpassword = async (req, res) => {
+  console.log("mai yha pahuncha");
+  const { password, email } = req.body;
+  console.log("mai yha pahuncha 2");
+
+  try {
+    const user = await User.findOne({ email });
+    console.log("mai yha pahuncha 3");
+    console.log(email, "jo hai hamre pass");
+    if (!user) {
+      return res.status(400).json({ message: "User not found" });
+    }
+    console.log("mai yha pahuncha 4");
+
+    // Hash the new password
+    const hashedPassword = await bcrypt.hash(password, 10);
+    console.log("mai yha pahuncha 5");
+    // Update the user's password and clear OTP fields
+    user.password = hashedPassword;
+    user.otp = undefined;
+    user.otpExpires = undefined;
+    await user.save();
+    console.log("mai yha pahuncha 6 ");
+
+    res.status(200).json({
+      success: true,
+      message: "Password reset successfully",
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+};

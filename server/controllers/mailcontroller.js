@@ -5,7 +5,6 @@ const { sendOtpEmail } = require("./mailer");
 
 exports.register = async (req, res) => {
   const { firstName, lastName, email, password, confirmpassword } = req.body;
-  console.log("email i have in .env is ", process.env.MAIL_USER);
 
   try {
     console.log(
