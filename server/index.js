@@ -14,7 +14,7 @@ const PORT = process.env.PORT || 4000;
 // Middleware setup
 app.use(
   cors({
-    origin: "https://jaskaranshopspot.netlify.app/", // Adjust based on your actual origin
+    origin: "https://jaskaranshopspot.netlify.app", // Adjust based on your actual origin
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true, // Allow credentials (cookies, etc.)
   })
